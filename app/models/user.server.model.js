@@ -1,34 +1,86 @@
-var mongoose=require('mongoose'),
-    Schema=mongoose.Schema
+var mongoose = require('mongoose'),
+    crypto = require('crypto'),   // 추가
+    Schema = mongoose.Schema;
 
-var UserSchema=new Schema({//schema 정의
-  username : String ,
-  userid :  {
-    type : String ,
-    trim : true//빈공간 삭제
-  },
-  password : String ,
-  email : String,
-  created : {//생성시간 추가
+var UserSchema = new Schema({
+    username : String ,
+    userid :  {
+        type : String ,
+        unique : true ,                           // 추가
+        required : 'Username is required'  ,       // 추가
+        trim : true
+    },
+    password : {                                     // ------password 변경
+        type : String ,                              //
+        validate : [                                 //
+         function(password) {                        //
+            return password && password.length > 6;  //
+         }, 'Password should be longer'              //
+        ]                                            //
+    },                                               // ------password 변경 끝
+
+    salt : {                                         // ------salt 추가
+        type : String                                //
+    },                                               // ------salt 추가 끝
+
+    provider : {                                     // ------provider 추가
+        type : String ,                              //
+        required : 'Provider is required'            //
+    },                                               // ------provider 추가 끝
+
+    providerId : String ,                            // ------providerId 추가
+
+    providerData : {} ,                              // ------providerData 추가
+
+    email : {                                                           // email 변경
+        type : String ,                                                 //
+        match : [/.+\@.+\..+/, "pleas fill a valid e-mail address"]     //
+    } ,                                                                 // email 변경 끝
+    created : {
         type : Date,
         default : Date.now
-      },
-  website : {//url이 없다면 무시, 있다면 앞에 http나 https가 있는지 확인후 없으면 앞에 추가
-        type : String ,
-        get : function(url) {//set이라면 조회시 모두 보여주고 get은 있는 데이터만 website행을 보여줌
-          if(!url) {
-            return url;
-          } else {
-              if (url.indexOf('http://') !== 0 && url.indexOf('https://') !== 0) {
-                url = 'http://' + url;
-              }
-              return url;
+    }
+});
+
+
+UserSchema.pre('save', function(next){                                      // ------------ 추가 메소드
+    if(this.password) {
+        this.salt = new Buffer(crypto.randomBytes(16).toString('base64'),
+        'base64');
+    this.password = this.hashPassword(this.password);
+    }
+    next();
+});
+
+UserSchema.methods.hashPassword = function(password) {
+    return crypto.pbkdf2Sync(password, this.salt, 10000, 64).
+    toString('base64');
+};
+
+UserSchema.methods.authenticate = function(password) {
+    return this.password === this.hashPassword(password);
+};
+
+UserSchema.statics.findUniqueUserid = function(userid, suffix, callback) {
+    var _this = this;
+    var possibleUserid = userid + (suffix || '');
+
+    _this.findOne({
+        userid : possibleUserid
+    }, function(err,user) {
+        if(!err) {
+            if(!user) {
+                callback(possibleUserid);
+            }else{
+                return _this.findUniqueUserid(userid, (suffix || 0) + 1, callback);
             }
+        }else{
+            callback(null);
         }
-  }
-})
-UserSchema.virtual('idpass').get(function() {//id+pass를 컬렉션의 행으로 추가해서 보여줌
-  return this.userid + ' ' + this.password;
-})
-UserSchema.set('toJSON',{ getters : true });//get을 쓰려면 이것을 써주어야함!
-mongoose.model('User',UserSchema)
+    });
+};                                                                               // 추가 끝
+
+
+
+UserSchema.set('toJSON',{ getters : true , virtuals : true});
+mongoose.model('User',UserSchema);

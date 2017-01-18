@@ -43,3 +43,15 @@ update(),findOneAndUpdate() ,findByIdAndUpdate()
 remove() , findOneAndRemove(), findByIdAndRemove()
 -------------------------------------------
 Schema model 관리
+-------------------------------------------
+passport 인증
+passport-local 사용자이름과 패스워드 인증 전략
+salt : 암호를 해독하기 위한 hashPassword
+provider : 사용자 등록시 사용되는 전략을 지시
+providerId : 인증전략을 위한 사용자 식별자를 지시하는 속성
+providerData : OAuth 공급자로 부터 인출한 사용자 객체를 저장하기 위해 나중에사용할 것
+pre-save : 사용자 비밀번호 해쉬(pre미들웨어는 해당요청이 진행되기전에  먼저 실행할 메소드를 선정가능)
+->암호를 평문으로 보내기전에 암호화를 먼저 진행하는 것에 사용된다
+->자동으로 생성된 가상 난수 해시 salt 만들고 현재 사용자 비밀번호를 hashPassword() 메소드를 통해 암호화함(여기서 crypto가 이용)
+->authenticate()는 문자열인수를  받아와서  암호화하고 현재사용자 비밀번호와 비교
+findUniqueUserId() : 유일하게 사용가능한 id를 찾는 것으로 이를 통해 OAuth 인증 즉 페북, 트위터등의 로그인을 할때 인증시에 사용될것
