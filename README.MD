@@ -20,3 +20,6 @@ body-parser:요청 데이터처리(body 사용..)
 method-override:delete, put등 http동사 지원
 config/env ->환경에 관련된 파일들
 config.js->개발자, 사용자에 따라 config.env의 코드를 불러옴
+-------------------------------------------
+ejs : jade와 같은 html 템플릿 엔진
+app.use(express.static('파일경로')) : 이를 통해 정적파일을 불러올 경로를 정한다.
