@@ -23,3 +23,7 @@ config.js->개발자, 사용자에 따라 config.env의 코드를 불러옴
 -------------------------------------------
 ejs : jade와 같은 html 템플릿 엔진
 app.use(express.static('파일경로')) : 이를 통해 정적파일을 불러올 경로를 정한다.
+-------------------------------------------
+express-session 미들웨어 :express에서 session 처리하기 위해
+sessionSecret 설정
+지난 세션 정보 불러오기 

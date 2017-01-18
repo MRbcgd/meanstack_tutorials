@@ -2,7 +2,9 @@ var express=require('express'),
     morgan=require('morgan'),//LOGGER 사용위해
     compression=require('compression'),//응답데이터 압축
     bodyParser=require('body-parser'),//요청 데이터처리
-    methodOverride=require('method-override')//PUT,DELETE등 HTTP 동사 지원
+    methodOverride=require('method-override')//PUT,DELETE등 HTTP 동사 지원,
+    config=require('./config'),//development.js 호출을 위해
+    session=require('express-session')//세션사용 위해
 
 module.exports=function(){
   var app=express();
@@ -18,6 +20,12 @@ module.exports=function(){
   }));
   app.use(bodyParser.json());//JSON 사용위해
   app.use(methodOverride());//method-override 사용 위해
+  app.use(session({//session사용 위해
+        saveUninitialized : true,
+        resave : true,
+        secret : config.sessionSecret//development.js의 sessionSecret을 불러옴
+    }));
+
 
   app.set('views', './app/views');//ejs사용을 위해
   app.set('view engine', 'ejs');//ejs사용을 위해
