@@ -41,3 +41,5 @@ express에서 user의 routing까지 불러온다
 fine(),findOne()
 update(),findOneAndUpdate() ,findByIdAndUpdate()
 remove() , findOneAndRemove(), findByIdAndRemove()
+-------------------------------------------
+Schema model 관리
