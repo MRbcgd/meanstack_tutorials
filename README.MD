@@ -7,9 +7,16 @@ app->app의 기능에 관련
 -routes : 미들웨어, 즉 클라이언트의 요청이나 서버의 요청의 길잡이 역할, 사용자가 접속에 따라 응답을 선보임, controllers의 작업을 routing해야 응답을 할수 있음
 static->html, js,images등 외부 정적파일
 config->모듈을 구성하기 위한 파일들
-
+-------------------------------------------
 controllers->routes->express->app
 -controllers에서 작업
 -routes에서 routing하여 '/'로 들어올 경우 controllers의 작업을 응답함.
 -이때 routes에서 app.get을 사용해야 하므로 express에서 routes를 불러온뒤 express를 return
--app에서는 express모듈을 불러와서 controllers->routes 작업을 자동으로 수행후에 앱을 실행 
+-app에서는 express모듈을 불러와서 controllers->routes 작업을 자동으로 수행후에 앱을 실행
+-------------------------------------------
+morgan:개발자환경에서 logger를 보기위해 사용
+compression:사용자 입장에서 깔끔하게 압축된 응답데이터를 보여줌
+body-parser:요청 데이터처리(body 사용..)
+method-override:delete, put등 http동사 지원
+config/env ->환경에 관련된 파일들
+config.js->개발자, 사용자에 따라 config.env의 코드를 불러옴
