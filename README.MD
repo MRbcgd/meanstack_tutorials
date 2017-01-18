@@ -37,3 +37,7 @@ user controllers에 사용자의 crud에 관련된 기능들 정의(model을 불
 user routes에서 'users' url에 접속시 controllers의 create 메소드를불러서 사용하게함
 user routes에서 'users' url에 접속시 controllers의 list 메소드를불러서 사용하게함
 express에서 user의 routing까지 불러온다
+-------------------------------------------
+fine(),findOne()
+update(),findOneAndUpdate() ,findByIdAndUpdate()
+remove() , findOneAndRemove(), findByIdAndRemove()
