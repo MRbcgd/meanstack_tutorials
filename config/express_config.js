@@ -26,11 +26,11 @@ module.exports=function(){
         secret : config.sessionSecret//development.js의 sessionSecret을 불러옴
     }));
 
-
   app.set('views', './app/views');//ejs사용을 위해
   app.set('view engine', 'ejs');//ejs사용을 위해
 
   require('../app/routes/index.server.routes.js')(app)
+  require('../app/routes/user.server.routes.js')(app)
   //주의 할점은 정적파일은 라우팅호출 밑으로 해야한다.(응답을 빠르게 하기 위해)
   app.use(express.static('./static'))//정적파일 컨트롤 static에 있는 파일들을 유동성있게 불러오기위해
   return app;
