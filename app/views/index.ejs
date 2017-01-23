@@ -10,14 +10,17 @@
       <a href="/signup">Signup</a>
       <a href="/signin">Signin</a>
       <% } %>
-      <section>
-        <input type="text" id="text1" ng-model="name" />
-        <input type="text" id="text2" ng-model="name" />
-      </section>
+      <section ng-view></section>
       <br />
+      <!-- <section ng-include="'example/views/example.client.view.html'"></section> -->
       <img src="images/pchpch.jpg" alt="logo" />
-      <!--angularjs를 위해 -->
+      <!-- 여러뷰에서 사용되는 라우팅은 지저분하기에 알아서 찾아주는 기능인 ngRoute 모듈 -->
       <script type="text/javascript" src="/lib/angular/angular.js"></script> <!-- 추가 -->
+      <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+      <!--angularjs를 위해 -->
+      <script type="text/javascript" src="/example/example.client.module.js"></script>
+      <script type="text/javascript" src="/example/controllers/example.client.controller.js"> </script> <!-- 추가 -->
+      <script type="text/javascript" src="/example/config/example.client.routes.js"></script> <!-- 추가 -->
       <script type="text/javascript" src="/application.js"></script>
 </body>
 </html>
