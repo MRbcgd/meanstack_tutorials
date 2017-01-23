@@ -3,14 +3,19 @@
   <head> <title> <%= title %> </title>
   </head>
 <body>
-  <% if (username) { %>
-    <h2>Hello <%=username %></h2>
+  <% if (user) { %>
     <a href="/signout">Sign out</a>
     <% } else { %>
       <a href="/signup">Signup</a>
       <a href="/signin">Signin</a>
       <% } %>
       <section ng-view></section>
+
+      <!-- angularjs가 인증된 사용자의 정보를 가지고 있는지 없는지 -->
+      <script type="text/javascript">
+          window.user = <%- user || 'null' %>
+      </script>
+
       <br />
       <!-- <section ng-include="'example/views/example.client.view.html'"></section> -->
       <img src="images/pchpch.jpg" alt="logo" />
@@ -21,6 +26,10 @@
       <script type="text/javascript" src="/example/example.client.module.js"></script>
       <script type="text/javascript" src="/example/controllers/example.client.controller.js"> </script> <!-- 추가 -->
       <script type="text/javascript" src="/example/config/example.client.routes.js"></script> <!-- 추가 -->
+
+      <script type="text/javascript" src="/users/users.client.module.js"></script>
+      <script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+
       <script type="text/javascript" src="/application.js"></script>
 </body>
 </html>
